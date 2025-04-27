@@ -32,7 +32,7 @@ Result: one central hub for Internet traffic, security inspection, routing and c
 ├── dev.tfvars, uat.tfvars, prd.tfvars        # Example var values (CIDRs, AZ mappings, env names)
 └── README.md
 
-```text
+```
 ---
 
 # 🔧 Prerequisites
