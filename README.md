@@ -1,9 +1,12 @@
 # terraform.example.aws.centralised.network
 
-A minimal Terraform example demonstrating how to build a centralised “Hub-and-Spoke” AWS network using:
+This is a minimal Terraform example showing how to build a centralized **Hub-and-Spoke** AWS network architecture, designed to counter **network sprawl** as your AWS environment scales.
 
-- **AWS RAM** to share VPCs & subnets from a dedicated **Networking (Hub) Account**  
-- **AWS Transit Gateway** to route traffic between the Hub and multiple **Workload (Spoke) Accounts**
+It uses:
+- **AWS RAM (Resource Access Manager)** to share VPCs and subnets from a dedicated **Networking (Hub) Account**  
+- **AWS Transit Gateway** to route traffic cleanly between the Hub and multiple **Workload (Spoke) Accounts**
+
+By centralizing network ownership and routing, this setup simplifies management, reduces costs, and strengthens security across all accounts.
 
 ---
 
@@ -28,3 +31,37 @@ Result: one central hub for Internet traffic, security inspection, routing and c
 ├── variables.tf            # Common variable definitions
 ├── dev.tfvars, uat.tfvars, prd.tfvars        # Example var values (CIDRs, AZ mappings, env names)
 └── README.md
+
+# 🔧 Prerequisites
+
+- Terraform v1.5 or later
+- AWS CLI configured with credentials for:
+  - **Networking Account** (Hub)
+  - **Workload Accounts** (Spokes: Dev, UAT, PRD, etc.)
+- IAM permissions to create and manage:
+  - VPCs
+  - Subnets
+  - Internet Gateway (IGW)
+  - NAT Gateway
+  - Transit Gateway (TGW) and TGW Attachments
+  - Resource Access Manager (RAM) shares
+  - Route Tables and Routes
+
+---
+
+## 📖 How It Works
+
+1. **Networking (Hub) Account** provisions:
+   - Central VPC, Subnets, Internet Gateway, NAT Gateways
+   - A Transit Gateway (TGW) for traffic routing
+   - RAM shares for VPCs and subnets to workload accounts
+
+2. **Workload (Spoke) Accounts**:
+   - Accept shared VPCs and subnets via RAM
+   - Attach to the Transit Gateway for ingress/egress routing
+   - Use the shared network resources without owning or modifying them
+
+3. **Traffic Flow**:
+   - Outbound traffic from workload accounts routes through shared TGW subnets
+   - Then through the central Networking Account's NAT Gateways and Internet Gateway
+   - Centralizes security inspection, simplifies network management, and optimizes cost
