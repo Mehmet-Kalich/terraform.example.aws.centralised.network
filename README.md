@@ -1,12 +1,12 @@
 # terraform.example.aws.centralised.network
 
-This is a minimal Terraform example showing how to build a centralized **Hub-and-Spoke** AWS network architecture, designed to counter **network sprawl** as your AWS environment scales.
+This is a minimal Terraform example showing how to build a centralised **Hub-and-Spoke** AWS network architecture, designed to counter **network sprawl** as your AWS environment scales.
 
 It uses:
 - **AWS RAM (Resource Access Manager)** to share VPCs and subnets from a dedicated **Networking (Hub) Account**  
 - **AWS Transit Gateway** to route traffic cleanly between the Hub and multiple **Workload (Spoke) Accounts**
 
-By centralizing network ownership and routing, this setup simplifies management, reduces costs, and strengthens security across all accounts.
+By centralising network ownership and routing, this setup simplifies management, reduces costs, and strengthens security across all accounts.
 
 ---
 
@@ -16,7 +16,7 @@ As you scale out multiple workload accounts, managing per-account Internet Gatew
 
 1. **Create** all network resources (VPC, subnets, IGW, NAT, TGW) in a single **Networking Account**  
 2. **Share** the Dev/UAT/Prod VPCs & subnets cross-account via **RAM**  
-3. **Attach** shared subnets to an **AWS Transit Gateway** for centralized ingress/egress routing  
+3. **Attach** shared subnets to an **AWS Transit Gateway** for centralised ingress/egress routing  
 
 Result: one central hub for Internet traffic, security inspection, routing and cost optimisation.
 
@@ -64,4 +64,4 @@ Result: one central hub for Internet traffic, security inspection, routing and c
 3. **Traffic Flow**:
    - Outbound traffic from workload accounts routes through shared TGW subnets
    - Then through the central Networking Account's NAT Gateways and Internet Gateway
-   - Centralizes security inspection, simplifies network management, and optimizes cost
+   - Centralises security inspection, simplifies network management, and optimizes cost
